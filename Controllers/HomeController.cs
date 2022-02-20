@@ -33,6 +33,11 @@ namespace OekakiTradingSite.Controllers
             return View();
         }
 
+        public IActionResult Draw()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

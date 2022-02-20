@@ -8,24 +8,19 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Andy\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Deoto\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Andy\\Desktop\\NFT_project\\Oekaki-Trading-Site\\OekakiTradingSite.csproj",
+      "projectUniqueName": "C:\\Users\\Deoto\\source\\repos\\OekakiTradingSite\\Oekaki-Trading-Site\\OekakiTradingSite.csproj",
       "projectName": "OekakiTradingSite",
-      "projectPath": "C:\\Users\\Andy\\Desktop\\NFT_project\\Oekaki-Trading-Site\\OekakiTradingSite.csproj",
-      "packagesPath": "C:\\Users\\Andy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Andy\\Desktop\\NFT_project\\Oekaki-Trading-Site\\obj\\",
+      "projectPath": "C:\\Users\\Deoto\\source\\repos\\OekakiTradingSite\\Oekaki-Trading-Site\\OekakiTradingSite.csproj",
+      "packagesPath": "C:\\Users\\Deoto\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Deoto\\source\\repos\\OekakiTradingSite\\Oekaki-Trading-Site\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Andy\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\Deoto\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -68,7 +63,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.405\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
       }
     }
   }
