@@ -1,6 +1,85 @@
 ﻿@{
     ViewData["Title"] = "Draw";
 }
-<h1>@ViewData["Title"]</h1>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="~/lib/paper-full.min.js"></script>
+    <script type="text/javascript" canvas="canvas">
+        var myPath;
+        var color = 'black';
+        var width = 5;
+        var eraserFlag = false;
+        var myCanvas = document.getElementById("canvas");
+        function ChnageStrokeColor(newColor) {color = newColor; }
+        function Eraser() { color = window.getComputedStyle(canvas, null).getPropertyValue('background-color'); }
+        function ChangeStrokeSize(newSize) { width = newSize; }
+    </script>
+    <script type="text/paperscript" canvas="canvas">
+        function onMouseDown(event) {
+            myPath = new Path();
+            myPath.strokeColor = color;
+            myPath.strokeWidth =width;
+        }
+        function onMouseDrag(event) {
+            myPath.add(event.point);
+        }
+        function onMouseUp(event){
+            myPath.simplify(1);
+        }
+        tool.onKeyDown = function(event) {
+            switch(event.key){
+                case '1': width=5;return false;
+                case '2': width=15;return false;
+                case '3': width=30;return false;
+                case 'a': ChangeStrokeColor();return false;
+            }
+        }
+    </script>
+    <style>
+        canvas {
+            background-color: #04AA6D;
+        }
+        button {
+            position: absolute;
+            left: 10px;
+            padding: 15px;
+            width: 100px;
+            text-decoration: none;
+            font-size: 20px;
+            color: white;
+            border-radius: 0 5px 5px 0;
+        }
+            button:active {
+                transform: scale(0.9);
+            }
+        #about {
+            top: 100px;
+            background-color: #04AA6D;
+            left:10px;
+        }
 
-<p>Here you can draw</p>
+        #blog {
+            top: 160px;
+            background-color: #2196F3;
+        }
+
+        #projects {
+            top: 220px;
+            background-color: #f44336;
+        }
+
+        #contact {
+            top: 280px;
+            background-color: #555
+        }
+    </style>
+    <body>
+        <div id="mySidenav" class="sidenav">
+            <input type="checkbox" href="#" id="about" onchange="Eraser()" >
+            <button href="#" id="blog" type="button" class="btn btn-primary btn-lg">Blog</button>
+            <button href="#" id="projects" type="button" class="btn btn-primary btn-lg">Projects</button>
+            <button href="#" id="contact" type="button" class="btn btn-primary btn-lg">Contact</button>
+            <input type="color" id="head" name="head" oninput="ChnageStrokeColor(value)" >
+            <input type="range" min="5" max="100" value="5" class="slider" onchange="ChangeStrokeSize(value)">
+        </div>
+        <canvas id="canvas" width="1000" height="1000"></canvas>
+    </body>
