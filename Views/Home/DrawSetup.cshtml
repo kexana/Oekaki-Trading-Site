@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "DrawSetup";
+}
+<script type="text/javascript">
+    function SetParameters() {
+        if (document.getElementById("width").value > 1000) { document.getElementById("width").value = 1000;}
+        if (document.getElementById("height").value > 1000) { document.getElementById("height").value = 1000;}
+        localStorage.setItem("Width", document.getElementById("width").value);
+        localStorage.setItem("Height", document.getElementById("height").value);
+        localStorage.setItem("Color", document.getElementById("backgroundcolor").value);
+        location.href = '@Url.Action("Draw", "Home")';
+    }
+</script>
+<div href="#" id="setup">
+    <label >Canvas Width (Max 1000):</label>
+    <br>
+    <input  type="number" id="width" name="width" value="720" max="1000">
+    <br>
+    <label >Canvas Height (Max 1000):</label>
+    <br>
+    <input  type="number" id="height" name="height" value="480" max="1000">
+    <br>
+    <label >Background color:</label>
+    <br>
+    <input type="color" id="backgroundcolor" name="backgroundcolor" value="#ffffff">
+    <br>
+    <br>
+    <input type="submit" id="SubmitButton" value="Submit" onclick="SetParameters()">
+    <style>
+        #setup {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</div>

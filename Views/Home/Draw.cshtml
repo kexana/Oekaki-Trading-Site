@@ -1,85 +1,131 @@
 ﻿@{
     ViewData["Title"] = "Draw";
 }
-    <meta charset="UTF-8">
-    <script type="text/javascript" src="~/lib/paper-full.min.js"></script>
-    <script type="text/javascript" canvas="canvas">
-        var myPath;
-        var color = 'black';
-        var width = 5;
-        var eraserFlag = false;
-        var myCanvas = document.getElementById("canvas");
-        function ChnageStrokeColor(newColor) {color = newColor; }
-        function Eraser() { color = window.getComputedStyle(canvas, null).getPropertyValue('background-color'); }
-        function ChangeStrokeSize(newSize) { width = newSize; }
-    </script>
-    <script type="text/paperscript" canvas="canvas">
-        function onMouseDown(event) {
-            myPath = new Path();
-            myPath.strokeColor = color;
-            myPath.strokeWidth =width;
-        }
-        function onMouseDrag(event) {
-            myPath.add(event.point);
-        }
-        function onMouseUp(event){
-            myPath.simplify(1);
-        }
-        tool.onKeyDown = function(event) {
-            switch(event.key){
-                case '1': width=5;return false;
-                case '2': width=15;return false;
-                case '3': width=30;return false;
-                case 'a': ChangeStrokeColor();return false;
-            }
-        }
-    </script>
-    <style>
-        canvas {
-            background-color: #04AA6D;
-        }
-        button {
-            position: absolute;
-            left: 10px;
-            padding: 15px;
-            width: 100px;
-            text-decoration: none;
-            font-size: 20px;
-            color: white;
-            border-radius: 0 5px 5px 0;
-        }
-            button:active {
-                transform: scale(0.9);
-            }
-        #about {
-            top: 100px;
-            background-color: #04AA6D;
-            left:10px;
-        }
-
-        #blog {
-            top: 160px;
-            background-color: #2196F3;
-        }
-
-        #projects {
-            top: 220px;
-            background-color: #f44336;
-        }
-
-        #contact {
-            top: 280px;
-            background-color: #555
-        }
-    </style>
-    <body>
-        <div id="mySidenav" class="sidenav">
-            <input type="checkbox" href="#" id="about" onchange="Eraser()" >
-            <button href="#" id="blog" type="button" class="btn btn-primary btn-lg">Blog</button>
-            <button href="#" id="projects" type="button" class="btn btn-primary btn-lg">Projects</button>
-            <button href="#" id="contact" type="button" class="btn btn-primary btn-lg">Contact</button>
-            <input type="color" id="head" name="head" oninput="ChnageStrokeColor(value)" >
-            <input type="range" min="5" max="100" value="5" class="slider" onchange="ChangeStrokeSize(value)">
+<meta charset="UTF-8">
+<body>
+    <div href="#" id="Tools">
+        <input type="checkbox" href="#" id="Eraser">
+        <div class="btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary active">
+                <input type="checkbox" autocomplete="off" href="#" id="Eraser" onchange="Eraser()"> Eraser
+            </label>
         </div>
-        <canvas id="canvas" width="1000" height="1000"></canvas>
-    </body>
+        <button id="Undo" type="button" class="btn btn-primary btn-lg" onclick="Undo()">Undo</button>
+        <button id="Fill" type="button" class="btn btn-primary btn-lg" onclick="Fill()">Fill</button>
+        <button id="Publish" type="button" class="btn btn-primary btn-lg" onclick="Publish()">Publish</button>
+        <input type="color" id="Palette" name="Palette" oninput="ChnageStrokeColor(value)">
+        <input type="range" id="StrokeSize" min="5" max="100" value="5" step="5" class="slider" onchange="ChangeStrokeSize(value)">
+    </div>
+    <canvas id="canvas" width="1000" height="1000"></canvas>
+</body>
+<script type="text/javascript" src="~/lib/paper-full.min.js"></script>
+<script type="text/javascript" canvas="canvas">
+    var CanvasWidth, CanvasHeight, BackgroundColor;
+    var myPath;
+    var color = 'black';
+    var width = 5;
+    var fillFlag = false;
+    NewCanvas();
+    function ChnageStrokeColor(newColor) { color = newColor; }
+    function Eraser() { color = window.getComputedStyle(canvas, null).getPropertyValue('background-color'); }
+    function ChangeStrokeSize(newSize) { width = newSize; }
+    function Undo() { myPath.remove(); }
+    function Fill() { fillFlag = true; }
+    function NewCanvas() {
+        CanvasWidth = localStorage.getItem("Width");
+        BackgroundColor = localStorage.getItem("Color");
+        CanvasHeight = localStorage.getItem("Height");
+        var myCanvas = document.getElementById("canvas");
+        var ctx = myCanvas.getContext("2d");
+        ctx.canvas.width = CanvasWidth;
+        ctx.canvas.height = CanvasHeight;
+        canvas.style.backgroundColor = BackgroundColor;
+
+    }
+    function Publish() {
+        var canvas = document.getElementById('canvas');
+
+        canvas.toBlob(function (blob) {
+            var newImg = document.createElement('img'),
+                url = URL.createObjectURL(blob);
+
+            newImg.onload = function () {
+                // no longer need to read the blob so it's revoked
+                URL.revokeObjectURL(url);
+            };
+
+            newImg.src = url;
+            localStorage.setItem("ImgResult", newImg);
+            //document.body.appendChild(newImg);
+            location.href = '@Url.Action("DrawPublish", "Home")';
+        });
+    }
+</script>
+<script type="text/paperscript" canvas="canvas">
+    function onMouseDown(event) {
+        myPath = new Path();
+        myPath.strokeColor = color;
+        myPath.strokeWidth =width;
+    }
+    function onMouseDrag(event) {
+        myPath.add(event.point);
+    }
+    function onMouseUp(event){
+        myPath.simplify(1);
+        if(fillFlag){
+            myPath.closed=true;
+            myPath.fillColor=color;
+        }
+    }
+
+    tool.onKeyDown = function(event) {
+    }
+</script>
+<style>
+    canvas {
+        background-color: #04AA6D;
+        outline: 5px solid;
+    }
+    #Tools {
+        position: absolute;
+        left: 10px;
+        padding: 15px;
+        width: 100px;
+        text-decoration: none;
+        font-size: 20px;
+        color: white;
+        border-radius: 0 5px 5px 0;
+    }
+
+    button:active {
+        transform: scale(0.9);
+    }
+
+    #Eraser {
+        top: 100px;
+        width: 100px;
+    }
+
+    #Undo {
+        top: 160px;
+        width: 100px;
+        background-color: #2196F3;
+    }
+
+    #Fill {
+        top: 220px;
+        width: 100px;
+        background-color: #f44336;
+    }
+
+    #Publish {
+        top: 280px;
+        width: 100px;
+        background-color: #555
+    }
+    #StrokeSize {
+        left:-50%;
+        -webkit-appearance: slider-vertical;
+    }
+</style>
+
