@@ -4,17 +4,16 @@
 <meta charset="UTF-8">
 <body>
     <div href="#" id="Tools">
-        <input type="checkbox" href="#" id="Eraser">
-        <div class="btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-secondary active">
-                <input type="checkbox" autocomplete="off" href="#" id="Eraser" onchange="Eraser()"> Eraser
-            </label>
+        <button id="Undo" type="button" class="btn btn-primary btn-lg btn-block" onclick="Undo()"><i class="fa fa-bars"></i>Undo</button>
+        <div href="#" id="Checks">
+            <input type="checkbox" class="btn-check" href="#" id="Eraser">
+            <label class="btn btn-primary btn-lg btn-block" for="Eraser">Eraser</label>
+            <input type="checkbox" class="btn-check" href="#" id="Fill">
+            <label class="btn btn-primary btn-lg btn-block" for="Fill">Fill</label>
         </div>
-        <button id="Undo" type="button" class="btn btn-primary btn-lg" onclick="Undo()">Undo</button>
-        <button id="Fill" type="button" class="btn btn-primary btn-lg" onclick="Fill()">Fill</button>
-        <button id="Publish" type="button" class="btn btn-primary btn-lg" onclick="Publish()">Publish</button>
         <input type="color" id="Palette" name="Palette" oninput="ChnageStrokeColor(value)">
         <input type="range" id="StrokeSize" min="5" max="100" value="5" step="5" class="slider" onchange="ChangeStrokeSize(value)">
+        <button id="Publish" type="button" class="btn btn-primary btn-lg btn-block" onclick="Publish()">Publish</button>
     </div>
     <canvas id="canvas" width="1000" height="1000"></canvas>
 </body>
@@ -27,10 +26,8 @@
     var fillFlag = false;
     NewCanvas();
     function ChnageStrokeColor(newColor) { color = newColor; }
-    function Eraser() { color = window.getComputedStyle(canvas, null).getPropertyValue('background-color'); }
     function ChangeStrokeSize(newSize) { width = newSize; }
     function Undo() { myPath.remove(); }
-    function Fill() { fillFlag = true; }
     function NewCanvas() {
         CanvasWidth = localStorage.getItem("Width");
         BackgroundColor = localStorage.getItem("Color");
@@ -44,27 +41,25 @@
     }
     function Publish() {
         var canvas = document.getElementById('canvas');
-
-        canvas.toBlob(function (blob) {
-            var newImg = document.createElement('img'),
-                url = URL.createObjectURL(blob);
-
-            newImg.onload = function () {
-                // no longer need to read the blob so it's revoked
-                URL.revokeObjectURL(url);
-            };
-
-            newImg.src = url;
-            localStorage.setItem("ImgResult", newImg);
-            //document.body.appendChild(newImg);
-            location.href = '@Url.Action("DrawPublish", "Home")';
-        });
+        localStorage.setItem("ImgResult", canvas.toDataURL());
+        location.href = '@Url.Action("DrawPublish", "Draw")';
     }
 </script>
 <script type="text/paperscript" canvas="canvas">
     function onMouseDown(event) {
         myPath = new Path();
-        myPath.strokeColor = color;
+        if(document.getElementById("Fill").checked){
+            myPath.strokeWidth=5;
+            fillFlag=true;
+            myPath.closed=true;
+        }else{
+            fillFlag=false;
+        }
+        if(document.getElementById("Eraser").checked){
+            myPath.strokeColor = window.getComputedStyle(canvas, null).getPropertyValue('background-color');
+        }else{
+            myPath.strokeColor = color;
+        }
         myPath.strokeWidth =width;
     }
     function onMouseDrag(event) {
@@ -73,11 +68,13 @@
     function onMouseUp(event){
         myPath.simplify(1);
         if(fillFlag){
-            myPath.closed=true;
-            myPath.fillColor=color;
+            if(document.getElementById("Eraser").checked){
+                myPath.fillColor= window.getComputedStyle(canvas, null).getPropertyValue('background-color');
+            }else{
+                myPath.fillColor = color;
+            }
         }
     }
-
     tool.onKeyDown = function(event) {
     }
 </script>
@@ -90,42 +87,39 @@
         position: absolute;
         left: 10px;
         padding: 15px;
-        width: 100px;
+        width: 150px;
+        min-block-size:150px;
         text-decoration: none;
         font-size: 20px;
         color: white;
         border-radius: 0 5px 5px 0;
     }
-
     button:active {
         transform: scale(0.9);
     }
-
-    #Eraser {
-        top: 100px;
-        width: 100px;
-    }
-
     #Undo {
-        top: 160px;
-        width: 100px;
+        top: 100px;
         background-color: #2196F3;
     }
-
+    #Eraser {
+        top: 160px;
+    }
     #Fill {
         top: 220px;
-        width: 100px;
-        background-color: #f44336;
     }
-
     #Publish {
         top: 280px;
-        width: 100px;
         background-color: #555
     }
     #StrokeSize {
         left:-50%;
         -webkit-appearance: slider-vertical;
+    }
+    #Palette {
+        -webkit-appearance:none;
+        border:none;
+        height:100px;
+        width:100px;
     }
 </style>
 
