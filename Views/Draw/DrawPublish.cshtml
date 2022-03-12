@@ -2,18 +2,19 @@
     ViewData["Title"] = "DrawPublish";
 }
 <div href="#" id="preview"></div>
-<form>
+<form asp-controller="Draw" asp-action="DrawPublish">
     <div href="#" id="publish">
+        <input type="hidden" id="Source" name="Source">
         <label>Name:</label>
         <br>
-        <input class="input-group mb-3" type="text" id="name" name="name">
+        <input class="input-group mb-3" type="text" id="Title" name="Title">
         <label>Price:</label>
         <br>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">curency</span>
             </div>
-            <input type="number" id="price" name="price" value="100" max="1000">
+            <input type="number" id="price" name="Price" value="100" max="1000">
         </div>
         <input type="submit" id="SubmitButton" value="Publish" class="btn btn-primary btn-lg btn-block">
     </div>
@@ -46,4 +47,5 @@
     var preview = document.createElement('img');
     preview.src=localStorage.getItem("ImgResult");
     document.getElementById("preview").appendChild(preview);
+    document.getElementById("Source").value = preview.src;
 </script>

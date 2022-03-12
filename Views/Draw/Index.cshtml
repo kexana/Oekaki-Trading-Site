@@ -1,0 +1,28 @@
+﻿@model List<Drawing>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+            <th scope="col">Source</th>
+            <th scope="col">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var drawing in Model)
+        {
+            <tr>
+                <td>@drawing.Id</td>
+                <td>@drawing.Title</td>
+                <td>@drawing.Price</td>
+                <td>@drawing.ImageDirectory</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@drawing.Id">
+                        <button type="button" class="btn btn-outline-primary">Edit</button>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
