@@ -1,6 +1,7 @@
 ﻿using OekakiTradingSite.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -33,6 +34,7 @@ namespace OekakiTradingSite.Services
         public Drawing DeleteDrawing(int id)
         {
             Drawing drawing = FindById(id);
+            //File.Delete(drawing.ImageDirectory);
             data.Drawings.Remove(drawing);
             return drawing;
         }

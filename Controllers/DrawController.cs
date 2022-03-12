@@ -44,7 +44,7 @@ namespace OekakiTradingSite.Controllers
         public IActionResult DrawPublish(String Title, int Price, string Source)
         {
             Drawing drawing = drawService.AddDrawing(Title, Price, Source);
-            string DrawingSource = "C:/Users/Deoto/source/repos/OekakiTradingSite/Oekaki-Trading-Site/wwwroot/ImageData/" + drawing.Title + drawing.CreationDate.ToString("MM_dd_yyyy_HH_mm_ss") + ".png";
+            string DrawingSource = "~/ImageData/" + drawing.Title + drawing.CreationDate.ToString("MM_dd_yyyy_HH_mm_ss") + ".png";
             //drawService.SaveDataUrlToFile(Source, DrawingSource);
             drawing.ImageDirectory = DrawingSource;
             return RedirectToAction(nameof(Index));

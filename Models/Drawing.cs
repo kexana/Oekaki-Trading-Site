@@ -49,7 +49,7 @@ namespace OekakiTradingSite.Models
         public int TotalLikes
         {
             get { return totalLikes; }
-            private set { totalLikes = value; }
+            set { totalLikes = value; }
         }
         public bool IsSellable
         {
