@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "DrawPublish";
+}
+<div href="#" id="preview"></div>
+<form asp-controller="Draw" asp-action="DrawPublish">
+    <div href="#" id="publish">
+        <input type="hidden" id="Source" name="Source">
+        <label>Name:</label>
+        <br>
+        <input class="input-group mb-3" type="text" id="Title" name="Title">
+        <label>Price:</label>
+        <br>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">curency</span>
+            </div>
+            <input type="number" id="price" name="Price" value="100" max="1000">
+        </div>
+        <input type="submit" id="SubmitButton" value="Publish" class="btn btn-primary btn-lg btn-block">
+    </div>
+</form>
+<style>
+    #publish {
+        margin: 0;
+        position: absolute;
+        top: 70%;
+        left: 50%;
+        min-width: 200px;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
+    #preview {
+        width: 400px;
+        height: 400px;
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%);
+    }
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+</style>
+<script type="text/javascript">
+    var preview = document.createElement('img');
+    preview.src=localStorage.getItem("ImgResult");
+    document.getElementById("preview").appendChild(preview);
+    document.getElementById("Source").value = preview.src;
+</script>
