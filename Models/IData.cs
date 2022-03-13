@@ -2,8 +2,9 @@
 
 namespace OekakiTradingSite.Models
 {
-    public interface IDrawingData
+    public interface IData
     {
         List<Drawing> Drawings { get; set; }
+        List<Comment> Comments { get; set; }
     }
 }

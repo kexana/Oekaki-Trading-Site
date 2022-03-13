@@ -27,7 +27,8 @@ namespace OekakiTradingSite
         {
             services.AddControllersWithViews();
             services.AddScoped<IDrawService,DrawService>();
-            services.AddSingleton<IDrawingData,DrawingData>();
+            services.AddSingleton<IData,Data>();
+            services.AddScoped<ICommentService, CommentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

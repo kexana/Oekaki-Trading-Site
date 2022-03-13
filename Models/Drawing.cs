@@ -54,7 +54,7 @@ namespace OekakiTradingSite.Models
         public bool IsSellable
         {
             get { return isSellable; }
-            private set { isSellable = value; }
+            set { isSellable = value; }
         }
         public string ImageDirectory
         {
@@ -64,7 +64,7 @@ namespace OekakiTradingSite.Models
         public int Price
         {
             get { return price; }
-            private set { price = value; }
+            set { price = value; }
         }
     }
 }

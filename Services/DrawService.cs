@@ -10,8 +10,8 @@ namespace OekakiTradingSite.Services
 {
     public class DrawService : IDrawService
     {
-        private IDrawingData data;
-        public DrawService(IDrawingData data)
+        private IData data;
+        public DrawService(IData data)
         {
             this.data = data;
         }
@@ -19,24 +19,22 @@ namespace OekakiTradingSite.Services
         {
             return data.Drawings;
         }
-        public Drawing AddDrawing(string title, int price, string source)
+        public void AddDrawing(Drawing newDrawing)
         {
-            Drawing drawing = new Drawing(title, 0, DateTime.Now, true, source, price);
-            data.Drawings.Add(drawing);
-            return drawing;
+            data.Drawings.Add(newDrawing);
         }
-        public Drawing EditInfo(int id, string title)
+        public void EditInfo(Drawing alteredDrawing, int id)
         {
             Drawing drawing = FindById(id);
-            drawing.Title = title;
-            return drawing;
+            drawing.Title = alteredDrawing.Title;
+            drawing.IsSellable = alteredDrawing.IsSellable;
+            drawing.Price = alteredDrawing.Price;
         }
-        public Drawing DeleteDrawing(int id)
+        public void DeleteDrawing(int id)
         {
             Drawing drawing = FindById(id);
             //File.Delete(drawing.ImageDirectory);
             data.Drawings.Remove(drawing);
-            return drawing;
         }
         public Drawing FindById(int id)
         {

@@ -1,0 +1,28 @@
+﻿@model List<Comment>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Contents</th>
+            <th scope="col">WriterId</th>
+            <th scope="col">DrawingPostId</th>
+            <th scope="col">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var comment in Model)
+        {
+            <tr>
+                <td>@comment.Id</td>
+                <td>@comment.Contents</td>
+                <td>@comment.WriterId</td>
+                <td>@comment.DrawingPostId</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@comment.Id">
+                        <button type="button" class="btn btn-outline-primary">Edit</button>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

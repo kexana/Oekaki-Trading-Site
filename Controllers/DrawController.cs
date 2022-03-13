@@ -41,9 +41,10 @@ namespace OekakiTradingSite.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult DrawPublish(String Title, int Price, string Source)
+        public IActionResult DrawPublish(String Title, int Price, string Source, bool isSellable)
         {
-            Drawing drawing = drawService.AddDrawing(Title, Price, Source);
+            Drawing drawing = new Drawing(Title,0,DateTime.Now,isSellable, Source, Price);
+            drawService.AddDrawing(drawing);
             string DrawingSource = "~/ImageData/" + drawing.Title + drawing.CreationDate.ToString("MM_dd_yyyy_HH_mm_ss") + ".png";
             //drawService.SaveDataUrlToFile(Source, DrawingSource);
             drawing.ImageDirectory = DrawingSource;
@@ -56,9 +57,10 @@ namespace OekakiTradingSite.Controllers
             return View(drawing);
         }
         [HttpPost]
-        public IActionResult AlterInfo(int id, string newTitle)
+        public IActionResult AlterInfo(int id, string newTitle, int newPrice,bool isSellable)
         {
-            drawService.EditInfo(id, newTitle);
+            Drawing drawing = new Drawing(newTitle, 0, DateTime.Now, isSellable, null, newPrice);
+            drawService.EditInfo(drawing,id);
 
             return RedirectToAction(nameof(Index));
         }
