@@ -10,43 +10,56 @@ namespace OekakiTradingSite.Services
 {
     public class DrawService : IDrawService
     {
-        private IData data;
-        public DrawService(IData data)
+        private DataContext dbContext;
+        public DrawService(DataContext dbContext)
         {
-            this.data = data;
+            this.dbContext = dbContext;
         }
         public List<Drawing> GetAll()
         {
-            return data.Drawings;
+            return dbContext.Drawings.ToList();
         }
         public void AddDrawing(Drawing newDrawing)
         {
-            data.Drawings.Add(newDrawing);
+            dbContext.Drawings.Add(newDrawing);
+
+            dbContext.SaveChanges();
         }
-        public void EditInfo(Drawing alteredDrawing, int id)
+        public void EditInfo(Drawing alteredDrawing)
         {
-            Drawing drawing = FindById(id);
+            Drawing drawing = FindById(alteredDrawing.Id);
             drawing.Title = alteredDrawing.Title;
             drawing.IsSellable = alteredDrawing.IsSellable;
             drawing.Price = alteredDrawing.Price;
+
+            dbContext.SaveChanges();
         }
         public void DeleteDrawing(int id)
         {
             Drawing drawing = FindById(id);
             //File.Delete(drawing.ImageDirectory);
-            data.Drawings.Remove(drawing);
+            dbContext.Drawings.Remove(drawing);
+
+            dbContext.SaveChanges();
         }
         public Drawing FindById(int id)
         {
-            return data.Drawings.FirstOrDefault(d => d.Id == id);
+            return dbContext.Drawings.FirstOrDefault(d => d.Id == id);
         }
         public string SaveDataUrlToFile(string dataUrl, string savePath)
         {
             var matchGroups = Regex.Match(dataUrl, @"^data:((?<type>[\w\/]+))?;base64,(?<data>.+)$").Groups;
             var base64Data = matchGroups["data"].Value;
             var binData = Convert.FromBase64String(base64Data);
-            System.IO.File.WriteAllBytes(savePath, binData);
+            File.WriteAllBytes(savePath, binData);
             return savePath;
+        }
+        public void LikeById(int id)
+        {
+            Drawing drawing = FindById(id);
+            drawing.TotalLikes += 1;
+
+            dbContext.SaveChanges();
         }
     }
 }

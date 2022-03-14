@@ -12,9 +12,11 @@ namespace OekakiTradingSite.Controllers
     public class DrawController : Controller
     {
         private IDrawService drawService;
-        public DrawController(IDrawService drawService)
+        private ICommentService commentService;
+        public DrawController(IDrawService drawService, ICommentService commentService)
         {
             this.drawService = drawService;
+            this.commentService = commentService;
         }
         [HttpGet]
         public IActionResult Index()
@@ -41,9 +43,9 @@ namespace OekakiTradingSite.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult DrawPublish(String Title, int Price, string Source, bool isSellable)
+        public IActionResult DrawPublish(Drawing drawing)
         {
-            Drawing drawing = new Drawing(Title,0,DateTime.Now,isSellable, Source, Price);
+            drawing.CreationDate = DateTime.Now;
             drawService.AddDrawing(drawing);
             string DrawingSource = "~/ImageData/" + drawing.Title + drawing.CreationDate.ToString("MM_dd_yyyy_HH_mm_ss") + ".png";
             //drawService.SaveDataUrlToFile(Source, DrawingSource);
@@ -57,16 +59,22 @@ namespace OekakiTradingSite.Controllers
             return View(drawing);
         }
         [HttpPost]
-        public IActionResult AlterInfo(int id, string newTitle, int newPrice,bool isSellable)
+        public IActionResult AlterInfo(Drawing drawing)
         {
-            Drawing drawing = new Drawing(newTitle, 0, DateTime.Now, isSellable, null, newPrice);
-            drawService.EditInfo(drawing,id);
+            drawService.EditInfo(drawing);
 
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]
         public IActionResult Delete(int id) {
             drawService.DeleteDrawing(id);
+            foreach(Comment c in commentService.GetAll())
+            {
+                if (c.DrawingPostId == id) 
+                { 
+                    commentService.DeleteComment(c.Id); 
+                }
+            }
 
             return RedirectToAction(nameof(Index));
         }

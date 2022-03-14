@@ -8,34 +8,39 @@ namespace OekakiTradingSite.Services
 {
     public class CommentService : ICommentService
     {
-        private IData data;
-        public CommentService(IData data)
+        private DataContext dbContext;
+        public CommentService(DataContext dbContext)
         {
-            this.data = data;
+            this.dbContext = dbContext;
         }
         public List<Comment> GetAll()
         {
-            return data.Comments;
+            return dbContext.Comments.ToList();
         }
         public Comment FindById(int id)
         {
-            Comment comment = data.Comments.FirstOrDefault(c => c.Id == id);
+            Comment comment = dbContext.Comments.FirstOrDefault(c => c.Id == id);
             return comment;
         }
         public void AddComment(Comment newComment)
         {
-            Comment comment = new Comment(newComment.Contents, newComment.WriterId, newComment.DrawingPostId, DateTime.Now);
-            data.Comments.Add(comment);
+            dbContext.Comments.Add(newComment);
+
+            dbContext.SaveChanges();
         }
-        public void EditComment(Comment alteredComment, int id)
+        public void EditComment(Comment alteredComment)
         {
-            Comment comment = FindById(id);
+            Comment comment = FindById(alteredComment.Id);
             comment.Contents = alteredComment.Contents;
+
+            dbContext.SaveChanges();
         }
         public void DeleteComment(int id)
         {
             Comment commentToDelete = FindById(id);
-            data.Comments.Remove(commentToDelete);
+            dbContext.Comments.Remove(commentToDelete);
+
+            dbContext.SaveChanges();
         }
     }
 }

@@ -27,8 +27,7 @@ namespace OekakiTradingSite.Controllers
         [HttpGet]
         public IActionResult Like(int id)
         {
-            Drawing drawing = drawService.FindById(id);
-            drawing.TotalLikes += 1;
+            drawService.LikeById(id);
             return RedirectToAction(nameof(Browse));
         }
         [HttpGet]

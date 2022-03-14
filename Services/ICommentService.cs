@@ -7,7 +7,7 @@ namespace OekakiTradingSite.Services
     {
         void AddComment(Comment newComment);
         void DeleteComment(int id);
-        void EditComment(Comment alteredComment, int id);
+        void EditComment(Comment alteredComment);
         Comment FindById(int id);
         List<Comment> GetAll();
     }

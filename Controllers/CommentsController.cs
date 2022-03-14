@@ -22,11 +22,11 @@ namespace OekakiTradingSite.Controllers
             return View(comments);
         }
         [HttpPost]
-        public IActionResult PostComment(string Contents, int drawingPostId)
+        public IActionResult PostComment(Comment comment)
         {
-            Comment comment = new Comment(Contents, 0, drawingPostId, DateTime.Now);
+            comment.CommentPostDate = DateTime.Now;
             commentService.AddComment(comment);
-            return RedirectToAction("ViewPost","PostsBrowser", new { id =drawingPostId });
+            return RedirectToAction("ViewPost","PostsBrowser", new { id =comment.DrawingPostId });
         }
         [HttpGet]
         public IActionResult Edit(int id)
@@ -35,10 +35,9 @@ namespace OekakiTradingSite.Controllers
             return View(comment);
         }
         [HttpPost]
-        public IActionResult AlterInfo(int id, string contents)
+        public IActionResult AlterInfo(Comment comment)
         {
-            Comment comment = new Comment(contents, 0, 0, DateTime.Now);
-            commentService.EditComment(comment,id);
+            commentService.EditComment(comment);
 
             return RedirectToAction(nameof(Index));
         }
