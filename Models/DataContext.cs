@@ -10,8 +10,9 @@ namespace OekakiTradingSite.Models
     {
         public DbSet<Drawing> Drawings { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DataContext(DbContextOptions options) :base(options)
-        {
+        public DbSet<User> Users { get; set; }
+        public DataContext(DbContextOptions options) : base(options) 
+        { 
 
         }
     }
