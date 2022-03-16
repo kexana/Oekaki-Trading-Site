@@ -10,5 +10,6 @@ namespace OekakiTradingSite.Services
         void EditComment(Comment alteredComment);
         Comment FindById(int id);
         List<Comment> GetAll();
+        void DeleteAllCommentsOnDrawingId(int drawingId);
     }
 }

@@ -45,17 +45,15 @@ namespace OekakiTradingSite.Controllers
         [HttpPost]
         public IActionResult DrawPublish(Drawing drawing)
         {
-            drawing.CreationDate = DateTime.Now;
             drawService.AddDrawing(drawing);
-            string DrawingSource = "~/ImageData/" + drawing.Title + drawing.CreationDate.ToString("MM_dd_yyyy_HH_mm_ss") + ".png";
-            //drawService.SaveDataUrlToFile(Source, DrawingSource);
-            drawing.ImageDirectory = DrawingSource;
+
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]
         public IActionResult Edit(int id)
         {
             Drawing drawing = drawService.FindById(id);
+
             return View(drawing);
         }
         [HttpPost]
@@ -68,13 +66,7 @@ namespace OekakiTradingSite.Controllers
         [HttpGet]
         public IActionResult Delete(int id) {
             drawService.DeleteDrawing(id);
-            foreach(Comment c in commentService.GetAll())
-            {
-                if (c.DrawingPostId == id) 
-                { 
-                    commentService.DeleteComment(c.Id); 
-                }
-            }
+            commentService.DeleteAllCommentsOnDrawingId(id);
 
             return RedirectToAction(nameof(Index));
         }

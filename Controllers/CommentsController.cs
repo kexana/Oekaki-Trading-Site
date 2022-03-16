@@ -24,14 +24,15 @@ namespace OekakiTradingSite.Controllers
         [HttpPost]
         public IActionResult PostComment(Comment comment)
         {
-            comment.CommentPostDate = DateTime.Now;
             commentService.AddComment(comment);
+
             return RedirectToAction("ViewPost","PostsBrowser", new { id =comment.DrawingPostId });
         }
         [HttpGet]
         public IActionResult Edit(int id)
         {
             Comment comment= commentService.FindById(id);
+
             return View(comment);
         }
         [HttpPost]
