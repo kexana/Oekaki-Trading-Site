@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Deoto\\source\\repos\\OekakiTradingSite\\Oekaki-Trading-Site\\OekakiTradingSite.csproj": {}
+    "C:\\Users\\Andy\\Desktop\\NFT_project\\Oekaki-Trading-Site\\OekakiTradingSite.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Deoto\\source\\repos\\OekakiTradingSite\\Oekaki-Trading-Site\\OekakiTradingSite.csproj": {
+    "C:\\Users\\Andy\\Desktop\\NFT_project\\Oekaki-Trading-Site\\OekakiTradingSite.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Deoto\\source\\repos\\OekakiTradingSite\\Oekaki-Trading-Site\\OekakiTradingSite.csproj",
+        "projectUniqueName": "C:\\Users\\Andy\\Desktop\\NFT_project\\Oekaki-Trading-Site\\OekakiTradingSite.csproj",
         "projectName": "OekakiTradingSite",
-        "projectPath": "C:\\Users\\Deoto\\source\\repos\\OekakiTradingSite\\Oekaki-Trading-Site\\OekakiTradingSite.csproj",
-        "packagesPath": "C:\\Users\\Deoto\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Deoto\\source\\repos\\OekakiTradingSite\\Oekaki-Trading-Site\\obj\\",
+        "projectPath": "C:\\Users\\Andy\\Desktop\\NFT_project\\Oekaki-Trading-Site\\OekakiTradingSite.csproj",
+        "packagesPath": "C:\\Users\\Andy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Andy\\Desktop\\NFT_project\\Oekaki-Trading-Site\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Deoto\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Andy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -39,6 +43,28 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.10, )"
+            },
+            "MySql.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.10, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -57,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.405\\RuntimeIdentifierGraph.json"
         }
       }
     }
