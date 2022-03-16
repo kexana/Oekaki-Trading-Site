@@ -5,11 +5,12 @@ namespace OekakiTradingSite.Services
 {
     public interface IDrawService
     {
-        Drawing AddDrawing(string title, int price, string source);
-        Drawing DeleteDrawing(int id);
-        Drawing EditInfo(int id, string title);
+        void AddDrawing(Drawing newDrawing);
+        void DeleteDrawing(int id);
+        void EditInfo(Drawing alteredDrawing);
         Drawing FindById(int id);
         List<Drawing> GetAll();
         string SaveDataUrlToFile(string dataUrl, string savePath);
+        void LikeById(int id);
     }
 }

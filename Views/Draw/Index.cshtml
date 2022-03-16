@@ -5,6 +5,7 @@
             <th scope="col">Id</th>
             <th scope="col">Title</th>
             <th scope="col">Price</th>
+            <th scope="col">Can be sold</th>
             <th scope="col">Source</th>
             <th scope="col">Options</th>
         </tr>
@@ -16,6 +17,7 @@
                 <td>@drawing.Id</td>
                 <td>@drawing.Title</td>
                 <td>@drawing.Price</td>
+                <td>@drawing.IsSellable</td>
                 <td>@drawing.ImageDirectory</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@drawing.Id">

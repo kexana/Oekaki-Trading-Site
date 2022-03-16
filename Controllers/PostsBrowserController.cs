@@ -11,9 +11,11 @@ namespace OekakiTradingSite.Controllers
     public class PostsBrowserController : Controller
     {
         private IDrawService drawService;
-        public PostsBrowserController(IDrawService drawService)
+        private ICommentService commentService;
+        public PostsBrowserController(IDrawService drawService, ICommentService commentService)
         {
             this.drawService = drawService;
+            this.commentService = commentService;
         }
         [HttpGet]
         public IActionResult Browse()
@@ -25,15 +27,15 @@ namespace OekakiTradingSite.Controllers
         [HttpGet]
         public IActionResult Like(int id)
         {
-            Drawing drawing = drawService.FindById(id);
-            drawing.TotalLikes += 1;
+            drawService.LikeById(id);
             return RedirectToAction(nameof(Browse));
         }
         [HttpGet]
         public IActionResult ViewPost(int id)
         {
-            Drawing drawing = drawService.FindById(id);
-            return View(drawing);
+            ViewBag.drawing = drawService.FindById(id);
+            ViewBag.comments = commentService.GetAll().Where(c => c.DrawingPostId == id).ToList();
+            return View();
         }
     }
 }

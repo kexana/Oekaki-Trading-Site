@@ -2,8 +2,19 @@
 
 <form asp-action="AlterInfo" asp-route-id="@Model.Id">
     <div class="form-group">
-        <label>DrawingTitle</label>
+        <label>Drawing title</label>
         <input type="text" class="form-control" name="newTitle" placeholder="Alter title" value="@Model.Title">
+        <br>
+        <label>Selling price</label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">curency</span>
+            </div>
+            <input type="number" name="newPrice" value="@Model.Price" max="1000">
+        </div>
+        <br>
+        <input type="checkbox" name="isSellable" id="isSellable" asp-for="@Model.IsSellable">
+        <label for="isSellable">Is the drawing sellable?</label>
     </div>
     <button type="submit" class="btn btn-primary">Edit</button>
     <a asp-action="Delete" asp-route-id="@Model.Id">

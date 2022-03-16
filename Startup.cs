@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,7 +28,11 @@ namespace OekakiTradingSite
         {
             services.AddControllersWithViews();
             services.AddScoped<IDrawService,DrawService>();
-            services.AddSingleton<IDrawingData,DrawingData>();
+            services.AddScoped<ICommentService, CommentService>();
+            services.AddDbContext<DataContext>(options =>
+            {
+                options.UseMySQL("Server=localhost;Database=oekaki_site_database;Uid=root;Pwd=1111;");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -12,9 +12,11 @@ namespace OekakiTradingSite.Controllers
     public class DrawController : Controller
     {
         private IDrawService drawService;
-        public DrawController(IDrawService drawService)
+        private ICommentService commentService;
+        public DrawController(IDrawService drawService, ICommentService commentService)
         {
             this.drawService = drawService;
+            this.commentService = commentService;
         }
         [HttpGet]
         public IActionResult Index()
@@ -41,30 +43,30 @@ namespace OekakiTradingSite.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult DrawPublish(String Title, int Price, string Source)
+        public IActionResult DrawPublish(Drawing drawing)
         {
-            Drawing drawing = drawService.AddDrawing(Title, Price, Source);
-            string DrawingSource = "~/ImageData/" + drawing.Title + drawing.CreationDate.ToString("MM_dd_yyyy_HH_mm_ss") + ".png";
-            //drawService.SaveDataUrlToFile(Source, DrawingSource);
-            drawing.ImageDirectory = DrawingSource;
+            drawService.AddDrawing(drawing);
+
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]
         public IActionResult Edit(int id)
         {
             Drawing drawing = drawService.FindById(id);
+
             return View(drawing);
         }
         [HttpPost]
-        public IActionResult AlterInfo(int id, string newTitle)
+        public IActionResult AlterInfo(Drawing drawing)
         {
-            drawService.EditInfo(id, newTitle);
+            drawService.EditInfo(drawing);
 
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]
         public IActionResult Delete(int id) {
             drawService.DeleteDrawing(id);
+            commentService.DeleteAllCommentsOnDrawingId(id);
 
             return RedirectToAction(nameof(Index));
         }

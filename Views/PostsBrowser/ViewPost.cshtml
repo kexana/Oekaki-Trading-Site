@@ -1,64 +1,66 @@
-﻿@model Drawing
+﻿
 <div class="card mb-4 box-shadow">
-    <img class="card-img-top" src="@Url.Content(Model.ImageDirectory)" alt="Card image cap">
+    <img class="card-img-top" src="@Url.Content(ViewBag.drawing.ImageDirectory)" alt="Card image cap">
     <div class="card-body">
-        <p class="card-text"> <strong style="font-size: 50px">@Model.Title</strong></p>
-        <a class="nav-link text-dark"><label style="font-size: 20px">Created by:  </label>@Model.CreatorId</a>
-        <a class="nav-link text-dark"><label style="font-size: 20px">Owned by:  </label>@Model.OwnerId</a>
+        <p class="card-text"> <strong style="font-size: 50px">@ViewBag.drawing.Title</strong></p>
+        <a class="nav-link text-dark" style="font-size: 20px"><label >Created by:  </label>@ViewBag.drawing.CreatorId</a>
+        <a class="nav-link text-dark" style="font-size: 20px"><label >Owned by:  </label>@ViewBag.drawing.OwnerId</a>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">Price</span>
             </div>
-            <input type="number" class="form-control" id="price" name="Price" value="@Model.Price" disabled>
+            <input type="number" class="form-control" id="price" name="Price" value="@ViewBag.drawing.Price" disabled>
             <input type="button" class="form-control" value="Buy" style="background-color:lightgoldenrodyellow">
         </div>
         <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
-                <a asp-action="Like" asp-route-id="@Model.Id">
+                <a asp-action="Like" asp-route-id="@ViewBag.drawing.Id">
                     <button type="button" class="btn btn-sm btn-outline-danger" style="font-size: 20px">Like</button>
                 </a>
-                <button type="button" class="btn btn-sm btn-danger" disabled style="font-size: 20px">@Model.TotalLikes</button>
+                <button type="button" class="btn btn-sm btn-danger" disabled style="font-size: 20px">@ViewBag.drawing.TotalLikes</button>
             </div>
-            <small class="text-muted" style="font-size: 20px">@Model.CreationDate.ToString("d")</small>
+            <small class="text-muted" style="font-size: 20px">@ViewBag.drawing.CreationDate.ToString("d")</small>
         </div>
     </div>
     <div class="container my-5 py-5">
         <div class="row d-flex justify-content-center">
             <div class="col-md-12 col-lg-10 col-xl-8">
                 <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex flex-start align-items-center">
-                            <img class="shadow-1-strong me-3"
-                                 src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"
-                                 alt="avatar"
-                                 width="60"
-                                 height="60" />
-                            <div>
-                                <h6 class="fw-bold text-primary mb-1">Lily Coleman</h6>
-                                <p class="text-muted small mb-0">
-                                    Jan 2020
-                                </p>
-                            </div>
-                        </div>
-
-                        <p class="mt-3 mb-4 pb-2">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                            quis nostrud exercitation ullamco laboris nisi ut aliquip consequat.
-                        </p>
-                    </div>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var comment in ViewBag.comments)
+                        {
+                            <li class="list-group-item">
+                                <div class="d-flex flex-start align-items-center">
+                                    <img class="shadow-1-strong me-3 rounded"
+                                         src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"
+                                         alt="avatar"
+                                         width="70"
+                                         height="70" />
+                                    <div class="col-md-12">
+                                        <p class="mt-3 mb-4 pb-2">@comment.Contents</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <h6 class="fw-bold text-primary mb-1">@comment.WriterId</h6>
+                                    <p class="text-muted small mb-0">@comment.CommentPostDate.ToString("d")</p>
+                                </div>
+                            </li>
+                        }
+                    </ul>
                     <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
-                        <div class="d-flex flex-start w-100">
-                            <img class="shadow-1-strong me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp" alt="avatar"
-                                 width="40"
-                                 height="40" />
-                            <div class="form-outline w-100">
-                                <textarea class="form-control" id="textAreaExample" rows="4" style="background: #fff;"></textarea>
+                        <form asp-controller="Comments" asp-action="PostComment" asp-route-drawingPostId="@ViewBag.drawing.Id">
+                            <div class="d-flex flex-start w-100">
+                                <img class="shadow-1-strong me-3 rounded" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp" alt="avatar"
+                                     width="50"
+                                     height="50" />
+                                <div class="form-outline w-100">
+                                    <textarea class="form-control" id="contents" name="Contents" rows="4" style="background: #fff;" placeholder="Write a comment"></textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="float-end mt-2 pt-1">
-                            <button type="button" class="btn btn-primary btn-sm">Post comment</button>
-                        </div>
+                            <div class="float-end mt-2 pt-1">
+                                <button type="submit" class="btn btn-primary btn-sm">Post comment</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

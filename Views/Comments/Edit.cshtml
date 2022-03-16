@@ -1,0 +1,15 @@
+﻿@model Comment
+
+<form asp-action="AlterInfo" asp-route-id="@Model.Id">
+    <div class="form-group">
+        <label>Comment contents</label>
+        <input type="text" class="form-control" name="contents" placeholder="Alter comment" value="@Model.Contents">
+    </div>
+    <button type="submit" class="btn btn-primary">Edit</button>
+    <a asp-action="Delete" asp-route-id="@Model.Id">
+        <button type="button" class="btn btn-danger">Delete comment</button>
+    </a>
+    <a asp-action="Index">
+        <button type="button" class="btn btn-secondary">Cancel</button>
+    </a>
+</form>
