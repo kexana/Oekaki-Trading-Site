@@ -5,7 +5,7 @@ namespace OekakiTradingSite.Services
 {
     public interface IDrawService
     {
-        void AddDrawing(Drawing newDrawing);
+        void AddDrawing(Drawing newDrawing, User user);
         void DeleteDrawing(int id);
         void EditInfo(Drawing alteredDrawing);
         Drawing FindById(int id);

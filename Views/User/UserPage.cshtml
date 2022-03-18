@@ -1,0 +1,47 @@
+﻿@model List<Drawing>
+<div class="card mb-4 box-shadow">
+    <div class="card-body">
+        <p class="card-text"> <strong style="font-size: 50px">@ViewBag.name</strong></p>
+        <p class="card-text"> <strong style="font-size: 30px">@ViewBag.email</strong></p>
+        <br />
+        <br />
+        <div class="container">
+
+            <div class="row">
+                @foreach (Drawing drawing in Model)
+                {
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <a asp-controller="PostsBrowser" asp-action="ViewPost" asp-route-id="@drawing.Id">
+                                <img class="card-img-top" src="@Url.Content(drawing.ImageDirectory)" alt="Card image cap">
+                            </a>
+                            <div class="card-body">
+                                <p class="card-text"> <strong style="font-size: 20px">@drawing.Title</strong></p>
+                                <a class="nav-link text-dark"><label>Created by:  </label>@drawing.Creator.UserName</a>
+                                <a class="nav-link text-dark"><label>Owned by:  </label>@drawing.Owner.UserName</a>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">price</span>
+                                    </div>
+                                    <input type="number" class="form-control" id="price" name="Price" value="@drawing.Price" disabled>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a asp-controller="PostsBrowser" asp-action="ViewPost" asp-route-id="@drawing.Id">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                        </a>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1">Likes</span>
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-danger" disabled>@drawing.TotalLikes</button>
+                                    </div>
+                                    <small class="text-muted">@drawing.CreationDate.ToString("d")</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

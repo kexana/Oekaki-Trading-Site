@@ -1,4 +1,5 @@
 ﻿using OekakiTradingSite.Models;
+using OekakiTradingSite.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,9 +39,9 @@ namespace OekakiTradingSite.Services
         public void Edit(User user)
         {
             User user_new = FindById(user.Id);
-            user_new.Username = user.Username;
+            //user_new.Username = user.Username;
             user_new.Email = user.Email;
-            user_new.Password = user.Password;
+            //user_new.Password = user.Password;
             data.SaveChanges();
         }
     }

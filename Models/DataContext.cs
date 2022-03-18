@@ -1,12 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OekakiTradingSite.Models
+namespace OekakiTradingSite.Models.Entities
 {
-    public class DataContext:DbContext
+    public class DataContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public DbSet<Drawing> Drawings { get; set; }
         public DbSet<Comment> Comments { get; set; }

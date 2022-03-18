@@ -1,4 +1,5 @@
 ﻿using OekakiTradingSite.Models;
+using OekakiTradingSite.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,8 +34,10 @@ namespace OekakiTradingSite.Services
         /// Calls the SaveDataUrlToFile() method to add the image file.
         /// </summary>
         /// <param name="newDrawing">A Drawing with set values for Title, CreatorId, OwnerId, IsSellable, Price, TotalLikes.</param>
-        public void AddDrawing(Drawing newDrawing)
+        public void AddDrawing(Drawing newDrawing,User user)
         {
+            newDrawing.Owner = user;
+            newDrawing.Creator = user;
             newDrawing.CreationDate = DateTime.Now;
             string DrawingSource = "~/ImageData/" + newDrawing.Title + newDrawing.CreationDate.ToString("MM_dd_yyyy_HH_mm_ss") + ".png";
             //SaveDataUrlToFile(Source, DrawingSource);

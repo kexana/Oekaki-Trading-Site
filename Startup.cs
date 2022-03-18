@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OekakiTradingSite.Models;
+using OekakiTradingSite.Models.Entities;
 using OekakiTradingSite.Services;
 using System;
 using System.Collections.Generic;
@@ -26,7 +28,6 @@ namespace OekakiTradingSite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IData, Data>();
             services.AddControllersWithViews();
             services.AddScoped<IDrawService,DrawService>();
             services.AddScoped<IUserService, UserService>();
@@ -35,6 +36,17 @@ namespace OekakiTradingSite
             {
                 options.UseMySQL("Server=localhost;Database=oekaki_site_database;Uid=root;Pwd=1111;");
             });
+            services.AddIdentity<User,IdentityRole<int>>(options =>
+            {
+                options.User.RequireUniqueEmail = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 3;
+            })
+            .AddEntityFrameworkStores<DataContext>()
+            .AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +68,8 @@ namespace OekakiTradingSite
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

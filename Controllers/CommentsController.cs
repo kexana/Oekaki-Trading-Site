@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using OekakiTradingSite.Models;
 using OekakiTradingSite.Services;
 using System;
@@ -11,9 +12,11 @@ namespace OekakiTradingSite.Controllers
     public class CommentsController : Controller
     {
         private ICommentService commentService;
-        public CommentsController(ICommentService commentService)
+        private UserManager<User> userManager;
+        public CommentsController(ICommentService commentService, UserManager<User> userManager)
         {
             this.commentService = commentService;
+            this.userManager = userManager;
         }
         [HttpGet]
         public IActionResult Index()
@@ -22,9 +25,10 @@ namespace OekakiTradingSite.Controllers
             return View(comments);
         }
         [HttpPost]
-        public IActionResult PostComment(Comment comment)
+        public async Task<IActionResult> PostComment(Comment comment)
         {
-            commentService.AddComment(comment);
+            User user = await userManager.GetUserAsync(User).ConfigureAwait(false);
+            commentService.AddComment(comment, user);
 
             return RedirectToAction("ViewPost","PostsBrowser", new { id =comment.DrawingPostId });
         }
