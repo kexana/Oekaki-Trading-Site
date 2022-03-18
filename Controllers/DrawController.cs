@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using OekakiTradingSite.Models;
 using OekakiTradingSite.Services;
 using System;
@@ -13,10 +14,12 @@ namespace OekakiTradingSite.Controllers
     {
         private IDrawService drawService;
         private ICommentService commentService;
-        public DrawController(IDrawService drawService, ICommentService commentService)
+        private UserManager<User> userManager; 
+        public DrawController(IDrawService drawService, ICommentService commentService, UserManager<User> userManager)
         {
             this.drawService = drawService;
             this.commentService = commentService;
+            this.userManager = userManager;
         }
         [HttpGet]
         public IActionResult Index()
@@ -43,9 +46,10 @@ namespace OekakiTradingSite.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult DrawPublish(Drawing drawing)
+        public async Task<IActionResult> DrawPublish(Drawing drawing)
         {
-            drawService.AddDrawing(drawing);
+            User user = await userManager.GetUserAsync(User).ConfigureAwait(false);
+            drawService.AddDrawing(drawing, user);
 
             return RedirectToAction(nameof(Index));
         }

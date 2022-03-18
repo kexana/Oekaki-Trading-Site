@@ -1,4 +1,5 @@
 ﻿using OekakiTradingSite.Models;
+using OekakiTradingSite.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,9 +40,10 @@ namespace OekakiTradingSite.Services
         /// Adds a new Comment to the database (dbContext) and sets its PostDate to the current time and date.
         /// </summary>
         /// <param name="newComment">A Comment with set values for Contents, DrawingPostId, WritterId.</param>
-        public void AddComment(Comment newComment)
+        public void AddComment(Comment newComment, User user)
         {
             newComment.CommentPostDate = DateTime.Now;
+            newComment.Writer = user;
             dbContext.Comments.Add(newComment);
 
             dbContext.SaveChanges();

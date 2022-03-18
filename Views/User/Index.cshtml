@@ -20,9 +20,9 @@
         {
             <tr>
                 <td scope="row">@user.Id</td>
-                <td>@user.Username</td>
+                <td>@user.UserName</td>
                 <td>@user.Email</td>
-                <td>@user.Password</td>
+                <td>@user.PasswordHash</td>
             <td>
             <a asp-action="Edit" asp-route-id="@user.Id">
                 <button class="btn-warning">
